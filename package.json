@@ -18,6 +18,16 @@
     "@types/winston": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "@typescript-eslint/parser": "^5.11.0",
+    "@babel/cli": "^7.17.0",
+    "@babel/core": "^7.17.2",
+    "@babel/node": "^7.16.8",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-proposal-decorators": "^7.17.2",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "eslint": "^8.8.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.3.0",
@@ -26,7 +36,9 @@
     "eslint-plugin-import-helpers": "^1.2.1",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "ts-node-dev": "^1.1.8",
+    "tsconfig-paths": "^3.12.0"
   },
   "dependencies": {
     "continuation-local-storage": "^3.2.1",
