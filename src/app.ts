@@ -12,6 +12,7 @@ import logger from '@middlewares/loggerMiddleware';
 import router from '@routers/index';
 
 import 'reflect-metadata';
+import errorHandlingMiddleware from '@middlewares/errorHandlingMiddleware';
 
 class App {
   public readonly app: Application;
@@ -32,6 +33,8 @@ class App {
     this.app.use(express.json());
     this.app.use(cors());
 
+    this.app.use(errorHandlingMiddleware);
+
     morgan(this.app, {
       noColors: true,
       prettify: false,
@@ -44,7 +47,7 @@ class App {
 
   private errorHandle(): void {
     this.app.use(
-      (err: Error, _: Request, res: Response, next: NextFunction) => {
+      (err: Error, _req: Request, res: Response, next: NextFunction) => {
         new ErrorHandler().handle(err, res, next, logger as any);
       }
     );
