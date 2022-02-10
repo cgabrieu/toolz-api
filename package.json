@@ -10,6 +10,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/continuation-local-storage": "^3.2.4",
+    "@types/cors": "^2.8.12",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.16",
+    "@types/winston": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "@typescript-eslint/parser": "^5.11.0",
     "eslint": "^8.8.0",
@@ -21,5 +27,15 @@
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1",
     "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "continuation-local-storage": "^3.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express-async-errors": "^3.1.1",
+    "express-handler-errors": "^2.3.1",
+    "express-request-id": "^2.0.1",
+    "morgan-body": "^2.6.6",
+    "winston": "^3.5.1"
   }
 }
