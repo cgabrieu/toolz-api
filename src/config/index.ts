@@ -9,3 +9,7 @@ export const server = {
   port: process.env.PORT,
   env: process.env.NODE_ENV,
 }
+
+export const postgresConnection = {
+  url: process.env.DATABASE_URL,
+};

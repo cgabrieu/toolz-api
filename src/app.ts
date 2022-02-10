@@ -11,6 +11,8 @@ import morgan from 'morgan-body';
 import logger from '@middlewares/loggerMiddleware';
 import router from '@routers/index';
 
+import 'reflect-metadata';
+
 class App {
   public readonly app: Application;
 
