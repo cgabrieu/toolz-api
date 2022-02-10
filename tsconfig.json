@@ -40,6 +40,9 @@
       ],
       "@routers/*": [
         "./src/routers/*",
+      ],
+      "@errors/*": [
+        "./src/errors/*",
       ]
     },
     "typeRoots": [

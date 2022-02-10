@@ -49,6 +49,7 @@
     "dotenv": "^16.0.0",
     "express-async-errors": "^3.1.1",
     "express-handler-errors": "^2.3.1",
+    "http-status": "^1.5.0",
     "morgan-body": "^2.6.6",
     "pg": "^8.7.3",
     "typeorm": "^0.2.41",
