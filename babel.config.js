@@ -19,7 +19,8 @@ module.exports = {
           '@tools': './src/tools',
           '@services': './src/services',
           '@utils': './src/utils',
-          '@routers': './src/routers'
+          '@routers': './src/routers',
+          '@errors': './src/errors'
         },
       },
     ],
