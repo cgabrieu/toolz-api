@@ -1,10 +1,8 @@
-import { Namespace, createNamespace } from 'continuation-local-storage';
 import cors from 'cors';
 import express, {
   Application,
   NextFunction,
   Request,
-  RequestHandler,
   Response,
 } from 'express';
 import { ErrorHandler } from 'express-handler-errors';
@@ -15,11 +13,9 @@ import router from '@routers/index';
 
 class App {
   public readonly app: Application;
-  private readonly session: Namespace;
 
   constructor() {
     this.app = express();
-    this.session = createNamespace('request');
 
     this.middlewares();
     this.routes();
@@ -34,15 +30,6 @@ class App {
     this.app.use(express.json());
     this.app.use(cors());
 
-    const attachContext: RequestHandler = (
-      _: Request,
-      __: Response,
-      next: NextFunction
-    ) => {
-      this.session.run(() => next());
-    };
-
-    this.app.use(attachContext);
     morgan(this.app, {
       noColors: true,
       prettify: false,
