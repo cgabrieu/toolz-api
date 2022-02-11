@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import yup from '@config/yup';
+import yup from '@/config/yup';
 
 export async function validateCreateUserPayload(
   req: Request,

@@ -2,9 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { ValidationError } from 'yup';
 import httpStatus from 'http-status';
 
-import ConflictError from '@errors/ConflictError';
-
-import logger from '@middlewares/loggerMiddleware';
+import ConflictError from '@/errors/ConflictError';
 
 export default function errorHandlingMiddleware(
   err: Error,
@@ -12,8 +10,6 @@ export default function errorHandlingMiddleware(
   res: Response,
   _next: NextFunction
 ) {
-  logger.error(String(err));
-
   if (err instanceof ConflictError) {
     return res.status(httpStatus.CONFLICT).send({
       message: err.message,

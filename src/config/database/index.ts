@@ -1,17 +1,24 @@
-import { createConnections } from 'typeorm';
+import { getConnectionManager } from 'typeorm';
 
-import Users from '@apps/Users/UsersEntity';
+import { postgresConnection, server } from '@/config';
+import Users from '@/apps/Users/UsersEntity';
 
-import { postgresConnection, server } from '@config/index';
+if (
+  server.env === 'production' &&
+  postgresConnection.url.indexOf('sslmode=require') === -1
+) {
+  postgresConnection.url += '?sslmode=require';
+}
 
-const connection = createConnections([
-  {
+export default async function connect() {
+  const connectionManager = getConnectionManager();
+  const connection = connectionManager.create({
     name: 'default',
     type: 'postgres',
     url: postgresConnection.url,
     entities: [Users],
-    synchronize: server.env === 'dev',
-  },
-]);
-
-export default connection;
+    ssl: server.env === 'production',
+  });
+  await connection.connect();
+  return connection;
+}

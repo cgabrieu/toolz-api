@@ -4,11 +4,6 @@ const paths = {
       tags: ['User'],
       summary: 'User',
       description: 'Create User',
-      security: [
-        {
-          Bearer: [],
-        },
-      ],
       parameters: [
         {
           in: 'body',

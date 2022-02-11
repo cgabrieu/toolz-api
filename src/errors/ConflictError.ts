@@ -1,6 +1,6 @@
 export default class ConflictError extends Error {
   constructor(message: string) {
-      super(message);
-      this.name = "ConflictError";
+    super(message);
+    this.name = 'ConflictError';
   }
 }

@@ -1,49 +1,26 @@
+import express from 'express';
 import 'express-async-errors';
+import cors from 'cors';
 import 'reflect-metadata';
 
-import cors from 'cors';
-import express, { Application } from 'express';
-import morgan from 'morgan-body';
+import connectDatabase from '@/config/database';
+import errorHandlingMiddleware from '@/middlewares/errorHandlingMiddleware';
 
-import errorHandlingMiddleware from '@middlewares/errorHandlingMiddleware';
-import logger from '@middlewares/loggerMiddleware';
-import swaggerRoutes from './docs.routes';
-import router from './routes';
+import router from '@/routes';
 
-class App {
-  public readonly app: Application;
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-  constructor() {
-    this.app = express();
+app.get('/health', (_req, res) => {
+  res.send('OK!');
+});
 
-    this.configSwagger();
-    this.middlewares();
-    this.routes();
-  }
+app.use(router);
+app.use(errorHandlingMiddleware);
 
-  private routes(): void {
-    this.app.use('/', router);
-    this.app.use(errorHandlingMiddleware);
-  }
-
-  private middlewares(): void {
-    this.app.use(express.json());
-    this.app.use(cors());
-
-    morgan(this.app, {
-      noColors: true,
-      prettify: false,
-      logReqUserAgent: false,
-      stream: {
-        write: (msg: string) => logger.info(msg) as any,
-      },
-    });
-  }
-
-  private async configSwagger(): Promise<void> {
-    const swagger = await swaggerRoutes.load();
-    this.app.use(swagger);
-  }
+export async function init() {
+  await connectDatabase();
 }
 
-export default new App();
+export default app;

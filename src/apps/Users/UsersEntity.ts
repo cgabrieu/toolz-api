@@ -4,16 +4,16 @@ import bcrypt from 'bcrypt';
 @Entity('users')
 export default class Users extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'integer' })
-  id!: number;
+    id!: number;
 
   @Column()
-  name!: string;
+    name!: string;
 
   @Column({ unique: true })
-  email!: string;
+    email!: string;
 
   @Column()
-  password!: string;
+    password!: string;
 
   static async getUserByEmail(email: string) {
     const user = await this.findOne({ email });

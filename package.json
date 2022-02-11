@@ -4,10 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "NODE_ENV=prod rm -rf ./dist && npx tsc --outDir dist",
-    "start": "NODE_ENV=prod NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/server.js",
-    "dev": "NODE_ENV=dev ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts"
+    "build": "NODE_ENV=production rm -rf ./dist && npm run eslint:fix && npx tsc -P ./tsconfig.json --outDir dist && babel dist -d dist",
+    "start": "NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/server.js",
+    "dev": "NODE_ENV=dev ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
+    "typeorm": "NODE_ENV=production ts-node ./node_modules/typeorm/cli",
+    "typeorm:dev": "NODE_ENV=dev ts-node ./node_modules/typeorm/cli",
+    "typeorm:test": "NODE_ENV=test ts-node ./node_modules/typeorm/cli",
+    "migration:generate": "npm run build && npm run typeorm:dev migration:generate --",
+    "migration:run": "npm run build && npm run typeorm:dev migration:run && npm run typeorm:test migration:run",
+    "migration:deploy": "npm run build && npm run typeorm migration:run",
+    "eslint": "npx eslint src",
+    "eslint:fix": "npx eslint --fix src",
+    "seed": "NODE_ENV=dev ts-node -r tsconfig-paths/register ./src/seeders",
+    "seed:deploy": "NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 ts-node -r tsconfig-paths/register ./src/seeders"
   },
   "keywords": [],
   "author": "",
@@ -66,7 +75,6 @@
     "pg": "^8.7.3",
     "swagger-ui-express": "^4.3.0",
     "typeorm": "^0.2.41",
-    "winston": "^3.5.1",
     "yup": "^0.32.11"
   },
   "husky": {

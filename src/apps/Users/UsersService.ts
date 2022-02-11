@@ -1,4 +1,4 @@
-import ConflictError from '@errors/ConflictError';
+import ConflictError from '../../errors/ConflictError';
 import Users from './UsersEntity';
 
 export async function createUser(body: Users) {

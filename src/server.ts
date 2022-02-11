@@ -1,12 +1,9 @@
-import connection from '@config/database';
-import { server } from '@config/index';
+import app, { init } from '@/app';
+import { server } from '@/config';
 
-import logger from '@middlewares/loggerMiddleware';
-
-connection.then(() => {
-  logger.info(`Database connected`);
-
-  require('./app').default.app.listen(server.port, () => {
-    logger.info('Server running', { port: server.port, mode: server.env });
+init().then(() => {
+  app.listen(server.port, () => {
+    /* eslint-disable-next-line no-console */
+    console.info('Server running', { port: server.port, mode: server.env });
   });
 });
