@@ -32,21 +32,6 @@ class SwaggerConfig {
       ErrorResponse: {
         type: 'object',
         properties: {
-          errors: {
-            type: 'array',
-            items: {
-              $ref: '#/definitions/ErrorData',
-            },
-          },
-        },
-      },
-      ErrorData: {
-        type: 'object',
-        properties: {
-          code: {
-            type: 'integer',
-            description: 'Error code',
-          },
           message: {
             type: 'string',
             description: 'Error message',
@@ -61,15 +46,15 @@ class SwaggerConfig {
     const swaggerDocument = dir.reduce(
       (total, path) => {
         try {
-          const swagger = require(`../apps/${path}/swagger`);
+          const docs = require(`../apps/${path}/docs`);
           const aux = total;
 
-          aux.paths = { ...total.paths, ...swagger.default.paths };
+          aux.paths = { ...total.paths, ...docs.default.paths };
 
-          if (swagger.default.definitions) {
+          if (docs.default.definitions) {
             aux.definitions = {
               ...total.definitions,
-              ...swagger.default.definitions,
+              ...docs.default.definitions,
             };
           }
 

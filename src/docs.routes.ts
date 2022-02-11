@@ -10,7 +10,7 @@ class SwaggerRoutes {
 
     swaggerRoute.use('/docs', serve);
     swaggerRoute.get('/docs', setup(document));
-    swaggerRoute.get('/docs.json', (_: Request, res: Response) =>
+    swaggerRoute.get('/docs.json', (_req: Request, res: Response) =>
       res.send(document)
     );
 
