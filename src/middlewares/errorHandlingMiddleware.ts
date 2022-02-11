@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 
 import ConflictError from '@errors/ConflictError';
@@ -6,18 +6,20 @@ import ConflictError from '@errors/ConflictError';
 import logger from '@middlewares/loggerMiddleware';
 
 export default function errorHandlingMiddleware(
-  err: Error,
+  err: ErrorRequestHandler,
   _req: Request,
-  res: Response
+  res: Response,
+  _next: NextFunction
 ) {
   if (err instanceof ConflictError) {
+    console.log('entrou');
     return res.status(httpStatus.CONFLICT).send({
       message: err.message,
     });
   }
-
-  logger.error(String(err));
+  //console.log(err);
+  //logger.error(String(err));
   return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
-    message: "Internal Server Error!"
+    message: 'Internal Server Error!',
   });
 }
