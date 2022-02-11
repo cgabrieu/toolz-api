@@ -2,7 +2,7 @@ import { createConnections } from 'typeorm';
 
 import Users from '@apps/Users/UsersEntity';
 
-import { postgresConnection, server } from '../index';
+import { postgresConnection, server } from '@config/index';
 
 const connection = createConnections([
   {

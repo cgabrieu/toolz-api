@@ -5,6 +5,6 @@ import { validateCreateUserPayload } from './UsersValidator';
 
 const router = Router();
 
-router.post('/', validateCreateUserPayload, controller.create);
+router.post('/sign-up', validateCreateUserPayload, controller.create);
 
 export default router;

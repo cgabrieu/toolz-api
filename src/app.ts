@@ -7,7 +7,7 @@ import morgan from 'morgan-body';
 
 import errorHandlingMiddleware from '@middlewares/errorHandlingMiddleware';
 import logger from '@middlewares/loggerMiddleware';
-import swaggerRoutes from './swagger.routes';
+import swaggerRoutes from './docs.routes';
 import router from './routes';
 
 class App {
