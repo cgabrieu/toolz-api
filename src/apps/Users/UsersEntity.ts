@@ -20,9 +20,9 @@ export default class Users extends BaseEntity {
     return user;
   }
 
-  static async createUser(name: string, email: string, password: string) {
-    const hashedPassword = bcrypt.hashSync(password, 12);
-    const user = this.create({ name, email, password: hashedPassword });
+  static async createUser(body: Users) {
+    const hashedPassword = bcrypt.hashSync(body.password, 12);
+    const user = this.create({ ...body, password: hashedPassword });
 
     await this.save(user);
 

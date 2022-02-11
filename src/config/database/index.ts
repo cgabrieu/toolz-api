@@ -6,7 +6,7 @@ import { postgresConnection, server } from '../index';
 
 const connection = createConnections([
   {
-    name: 'postgres',
+    name: 'default',
     type: 'postgres',
     url: postgresConnection.url,
     entities: [Users],

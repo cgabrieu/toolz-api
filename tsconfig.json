@@ -38,9 +38,6 @@
       "@tools/*": [
         "./src/tools/*",
       ],
-      "@routers/*": [
-        "./src/routers/*",
-      ],
       "@errors/*": [
         "./src/errors/*",
       ]
