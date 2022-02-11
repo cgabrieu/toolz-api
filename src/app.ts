@@ -1,4 +1,4 @@
-import "express-async-errors";
+import 'express-async-errors';
 import 'reflect-metadata';
 
 import cors from 'cors';
@@ -7,7 +7,7 @@ import morgan from 'morgan-body';
 
 import errorHandlingMiddleware from '@middlewares/errorHandlingMiddleware';
 import logger from '@middlewares/loggerMiddleware';
-
+import swaggerRoutes from './swagger.routes';
 import router from './routes';
 
 class App {
@@ -16,6 +16,7 @@ class App {
   constructor() {
     this.app = express();
 
+    this.configSwagger();
     this.middlewares();
     this.routes();
   }
@@ -37,6 +38,11 @@ class App {
         write: (msg: string) => logger.info(msg) as any,
       },
     });
+  }
+
+  private async configSwagger(): Promise<void> {
+    const swagger = await swaggerRoutes.load();
+    this.app.use(swagger);
   }
 }
 
