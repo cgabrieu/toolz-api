@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { ValidationError } from 'yup';
 import httpStatus from 'http-status';
 
 import ConflictError from '@errors/ConflictError';
@@ -15,6 +16,12 @@ export default function errorHandlingMiddleware(
 
   if (err instanceof ConflictError) {
     return res.status(httpStatus.CONFLICT).send({
+      message: err.message,
+    });
+  }
+
+  if (err instanceof ValidationError) {
+    return res.status(httpStatus.BAD_REQUEST).send({
       message: err.message,
     });
   }
