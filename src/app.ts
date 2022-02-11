@@ -1,11 +1,14 @@
+import "express-async-errors";
+import 'reflect-metadata';
+
 import cors from 'cors';
 import express, { Application } from 'express';
 import morgan from 'morgan-body';
 
+import errorHandlingMiddleware from '@middlewares/errorHandlingMiddleware';
 import logger from '@middlewares/loggerMiddleware';
-import router from './routes';
 
-import 'reflect-metadata';
+import router from './routes';
 
 class App {
   public readonly app: Application;
@@ -13,15 +16,16 @@ class App {
   constructor() {
     this.app = express();
 
-    this.setupMiddlewares();
+    this.middlewares();
     this.routes();
   }
 
   private routes(): void {
     this.app.use('/', router);
+    this.app.use(errorHandlingMiddleware);
   }
 
-  private setupMiddlewares(): void {
+  private middlewares(): void {
     this.app.use(express.json());
     this.app.use(cors());
 
