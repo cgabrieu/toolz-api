@@ -4,6 +4,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "target": "es6",
     "module": "commonjs",
     "baseUrl": ".",
