@@ -13,7 +13,6 @@ module.exports = {
   rules: {
     indent: ['warn', 2],
     quotes: ['error', 'single'],
-    semi: ['error', 'always'],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'comma-spacing': ['error', { before: false, after: true }],
     'semi-spacing': ['error', { before: false, after: true }],

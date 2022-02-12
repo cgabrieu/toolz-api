@@ -1,4 +1,5 @@
 import winston from 'winston';
+import { server } from '@/config';
 
 const options = {
   console: {
@@ -9,6 +10,7 @@ const options = {
     ),
     prettyPrint: true,
     colorize: process.stdout.isTTY,
+    silent: server.env === 'test',
   },
 };
 

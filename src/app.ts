@@ -23,7 +23,7 @@ morgan(app, {
   prettify: false,
   logReqUserAgent: false,
   stream: {
-    write: (msg: string) => loggerMiddleware.info(msg) as any,
+    write: (msg: string) => loggerMiddleware.info(msg) && true,
   },
 });
 

@@ -2,13 +2,13 @@ import faker from '@faker-js/faker';
 import httpStatus from 'http-status';
 import supertest from 'supertest';
 import app, { init } from '../../src/app';
-import Users from '../../src/apps/Users/UsersEntity';
+import User from '../../src/apps/Users/UserEntity';
 import createUser from '../factories/UserFactory';
 import { clearDatabase } from '../utils/clearRepositories';
 import closeConnection from '../utils/closeConnection';
 
 describe('POST USERS - Sign Up', () => {
-  let user: Users;
+  let user: User;
 
   const routeSignUp = '/auth/sign-up';
 

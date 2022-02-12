@@ -1,11 +1,11 @@
 import { postgresConnection, server } from './src/config';
-import Users from './src/apps/Users/UsersEntity';
+import User from './src/apps/Users/UserEntity';
 
 export default {
   type: 'postgres',
   url: postgresConnection.url,
   migrationsTableName: 'migrations',
-  entities: [Users],
+  entities: [User],
   migrations: ['dist/migrations/*.js'],
   cli: {
     migrationsDir: 'src/migrations',

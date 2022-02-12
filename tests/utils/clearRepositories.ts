@@ -1,5 +1,5 @@
 import { BaseEntity, EntityTarget, getConnection } from 'typeorm';
-import Users from '../../src/apps/Users/UsersEntity';
+import User from '../../src/apps/Users/UserEntity';
 
 export async function clearTable(entity: EntityTarget<BaseEntity>) {
   return getConnection()
@@ -11,5 +11,5 @@ export async function clearTable(entity: EntityTarget<BaseEntity>) {
 }
 
 export async function clearDatabase() {
-  await clearTable(Users);
+  await clearTable(User);
 }
