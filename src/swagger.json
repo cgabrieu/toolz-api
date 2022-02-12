@@ -23,13 +23,13 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateUserPayload" },
+              "schema": { "$ref": "#/components/schemas/SignUpPayload" },
               "examples": {
                 "user": {
                   "value": {
                     "name": "Carlos Gabriel",
                     "email": "carlosgabrielpc@live.com",
-                    "password": "minhaDificilimaSenha"
+                    "password": "minhaSenhaDificil"
                   }
                 }
               }
@@ -52,7 +52,7 @@
   },
   "components": {
     "schemas": {
-      "CreateUserPayload": {
+      "SignUpPayload": {
         "type": "object",
         "properties": {
           "name": { "type": "string" },
