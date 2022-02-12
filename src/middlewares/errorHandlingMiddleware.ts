@@ -3,6 +3,8 @@ import { ValidationError } from 'yup';
 import httpStatus from 'http-status';
 
 import ConflictError from '@/errors/ConflictError';
+import UnauthorizedError from '@/errors/UnauthorizedError';
+import NotFoundError from '@/errors/NotFoundError';
 
 export default function errorHandlingMiddleware(
   err: Error,
@@ -12,6 +14,18 @@ export default function errorHandlingMiddleware(
 ) {
   if (err instanceof ConflictError) {
     return res.status(httpStatus.CONFLICT).send({
+      message: err.message,
+    });
+  }
+
+  if (err instanceof UnauthorizedError) {
+    return res.status(httpStatus.UNAUTHORIZED).send({
+      message: err.message,
+    });
+  }
+
+  if (err instanceof NotFoundError) {
+    return res.status(httpStatus.NOT_FOUND).send({
       message: err.message,
     });
   }
