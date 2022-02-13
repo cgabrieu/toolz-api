@@ -36,8 +36,7 @@ export default class Session extends BaseEntity {
   }
 
   static async getSessionByToken(token: string) {
-    const session = this.findOne({ token });
-    return session;
+    return this.findOne({ token });
   }
 
   static async deleteSession(token: string) {

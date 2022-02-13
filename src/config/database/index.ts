@@ -3,6 +3,8 @@ import { getConnectionManager } from 'typeorm';
 import { postgresConnection, server } from '@/config';
 import User from '@/apps/Users/UserEntity';
 import Session from '@/apps/Sessions/SessionEntity';
+import Tool from '@/apps/Tools/ToolEntity';
+import Tag from '@/apps/Tags/TagEntity';
 
 if (
   server.env === 'production' &&
@@ -17,7 +19,7 @@ export default async function connect() {
     name: 'default',
     type: 'postgres',
     url: postgresConnection.url,
-    entities: [User, Session],
+    entities: [User, Session, Tool, Tag],
     ssl: server.env === 'production',
   });
   await connection.connect();
