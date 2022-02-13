@@ -5,6 +5,7 @@ import httpStatus from 'http-status';
 import ConflictError from '@/errors/ConflictError';
 import UnauthorizedError from '@/errors/UnauthorizedError';
 import NotFoundError from '@/errors/NotFoundError';
+import loggerMiddleware from './loggerMiddleware';
 
 export default function errorHandlingMiddleware(
   err: Error,
@@ -36,6 +37,7 @@ export default function errorHandlingMiddleware(
     });
   }
 
+  loggerMiddleware.info(String(err));
   return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
     message: 'Internal Server Error!',
   });

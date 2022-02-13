@@ -11,7 +11,6 @@ module.exports = {
   },
   plugins: ['@typescript-eslint'],
   rules: {
-    indent: ['warn', 2],
     quotes: ['error', 'single'],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'comma-spacing': ['error', { before: false, after: true }],

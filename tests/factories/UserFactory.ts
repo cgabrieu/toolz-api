@@ -1,12 +1,13 @@
-import Users from '../../src/apps/Users/UsersEntity';
+import User from '../../src/apps/Users/UserEntity';
+import UserBody from '../../src/apps/Users/interfaces/UserBody';
 import faker from '@faker-js/faker';
 
-export default async function createUser(): Promise<Users> {
-  const body = {
+export default async function createUser(): Promise<User> {
+  const body: UserBody = {
     name: faker.name.findName(),
     email: faker.internet.email(),
     password: faker.internet.password(10),
-  } as Users;
+  };
 
-  return Users.createUser(body);
+  return User.createUser(body);
 }

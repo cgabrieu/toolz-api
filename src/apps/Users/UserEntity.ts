@@ -1,6 +1,8 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import bcrypt from 'bcrypt';
 
+import UserBody from './interfaces/UserBody';
+
 @Entity('users')
 export default class User extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'integer' })
@@ -20,7 +22,7 @@ export default class User extends BaseEntity {
     return user;
   }
 
-  static async createUser(body: User) {
+  static async createUser(body: UserBody) {
     const hashedPassword = bcrypt.hashSync(body.password, 12);
     const user = this.create({ ...body, password: hashedPassword });
 
@@ -33,9 +35,7 @@ export default class User extends BaseEntity {
   static async findByEmailAndPassword(email: string, password: string) {
     const user = await this.findOne({ email });
 
-    if (user && bcrypt.compareSync(password, user.password)) {
-      return user;
-    }
+    if (user && bcrypt.compareSync(password, user.password)) return user;
 
     return null;
   }
