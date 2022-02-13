@@ -1,6 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import bcrypt from 'bcrypt';
-
 import UserBody from './interfaces/UserBody';
 
 @Entity('users')

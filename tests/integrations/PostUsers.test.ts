@@ -7,24 +7,24 @@ import createUser from '../factories/UserFactory';
 import { clearDatabase } from '../utils/clearRepositories';
 import closeConnection from '../utils/closeConnection';
 
-describe('POST USERS - Sign Up', () => {
-  let user: User;
+let user: User;
 
+beforeAll(async() => {
+  await init();
+  await clearDatabase();
+
+  user = await createUser();
+});
+
+afterAll(async() => {
+  await clearDatabase();
+  await closeConnection();
+});
+
+describe('POST USERS - Sign Up', () => {
   const routeSignUp = '/auth/sign-up';
 
-  beforeAll(async() => {
-    await init();
-    await clearDatabase();
-
-    user = await createUser();
-  });
-
-  afterAll(async() => {
-    await clearDatabase();
-    await closeConnection();
-  });
-
-  it('should return 400 (bad request) when the name field is black', async() => {
+  it('should return 400 (bad request) when name field is blank', async() => {
     const response = await supertest(app)
       .post(routeSignUp)
       .send({
@@ -37,7 +37,7 @@ describe('POST USERS - Sign Up', () => {
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
   });
 
-  it('should return 400 (bad request) when the email is invalid', async() => {
+  it('should return 400 (bad request) when email is invalid', async() => {
     const response = await supertest(app)
       .post(routeSignUp)
       .send({
@@ -50,7 +50,7 @@ describe('POST USERS - Sign Up', () => {
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
   });
 
-  it('should return 400 (bad request) when the password is invalid', async() => {
+  it('should return 400 (bad request) when password is invalid', async() => {
     const response = await supertest(app)
       .post(routeSignUp)
       .send({
@@ -63,7 +63,7 @@ describe('POST USERS - Sign Up', () => {
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
   });
 
-  it('should return 409 (conflict) when there is already a user with the email', async() => {
+  it('should return 409 (conflict) when there is already a user with email', async() => {
     const response = await supertest(app)
       .post(routeSignUp)
       .send({
@@ -76,7 +76,7 @@ describe('POST USERS - Sign Up', () => {
     expect(response.status).toBe(httpStatus.CONFLICT);
   });
 
-  it('should return 201 (created) when the payload is valid', async() => {
+  it('should return 201 (created) when payload is valid', async() => {
     const body: { name: string; email: string; password: string } = {
       name: faker.name.findName(),
       email: faker.internet.email(),
@@ -91,5 +91,72 @@ describe('POST USERS - Sign Up', () => {
       email: body.email,
     });
     expect(response.status).toBe(httpStatus.CREATED);
+  });
+});
+
+describe('POST USERS - Sign In', () => {
+  const routeSignIn = '/auth/sign-in';
+
+  it('should return 400 (bad request) when email field is blank', async() => {
+    const response = await supertest(app)
+      .post(routeSignIn)
+      .send({
+        email: '',
+        password: faker.internet.password(10),
+      });
+
+    expect(response.body.message).toBe('email é obrigatório');
+    expect(response.status).toBe(httpStatus.BAD_REQUEST);
+  });
+
+  it('should return 400 (bad request) when password field is blank', async() => {
+    const response = await supertest(app).post(routeSignIn).send({
+      email: faker.internet.email(),
+      password: '',
+    });
+
+    expect(response.body.message).toBe('password é obrigatório');
+    expect(response.status).toBe(httpStatus.BAD_REQUEST);
+  });
+
+  it('should return 400 (bad request) when email is invalid', async() => {
+    const response = await supertest(app)
+      .post(routeSignIn)
+      .send({
+        email: 'test.com',
+        password: faker.internet.password(10),
+      });
+
+    expect(response.body.message).toBe('Email inválido');
+    expect(response.status).toBe(httpStatus.BAD_REQUEST);
+  });
+
+  it('should return 404 (not found) when email and/or password is invalid', async() => {
+    const response = await supertest(app)
+      .post(routeSignIn)
+      .send({
+        email: user.email,
+        password: faker.internet.password(10),
+      });
+
+    expect(response.body.message).toBe('Email e/ou senha inválido(s)');
+    expect(response.status).toBe(httpStatus.NOT_FOUND);
+  });
+
+  it('should return 200 (ok) when email and/or password is invalid', async() => {
+    user = await createUser('valid-password');
+
+    const response = await supertest(app)
+      .post(routeSignIn)
+      .send({
+        email: user.email,
+        password: 'valid-password'
+      });
+
+      expect(response.body).toEqual({
+        user: expect.any(Object),
+        token: expect.any(String),
+      });
+    expect(response.status).toBe(httpStatus.OK);
   });
 });
