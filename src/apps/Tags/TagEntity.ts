@@ -1,5 +1,6 @@
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   Entity,
   ManyToMany,
@@ -18,14 +19,19 @@ export default class Tag extends BaseEntity {
   @ManyToMany(() => Tool, (tool: Tool) => tool.id)
   tools: Tool[];
 
+  @BeforeInsert()
+  nameToLowerCase() {
+    this.name = this.name.toLowerCase();
+  }
+
   static async findByName(name: string) {
-    return await this.findOne({ name: name.toLowerCase() });
+    return await this.findOne({ name });
   }
 
   static async createTag(name: string) {
     const tag = await this.findByName(name);
     if (!tag) {
-      const newTag = this.create({ name: name.toLowerCase() });
+      const newTag = this.create({ name });
       return await this.save(newTag);
     }
 

@@ -5,8 +5,8 @@ import Tool from './ToolEntity';
 export async function createTool(toolBody: ToolBody) {
   const tool = await Tool.findByTitleOrLink(toolBody.title, toolBody.link);
   if (tool) {
-    throw new ConflictError('Já existe uma ferramenta cadastrada com esse título ou link')
+    throw new ConflictError('Já existe uma ferramenta cadastrada com este título ou link')
   }
 
-  console.log(await Tool.createTool(toolBody));
+  return await Tool.createTool(toolBody);
 }

@@ -18,6 +18,10 @@ export async function createSession(body: UserBody) {
   return session.getSession();
 }
 
+export async function findSessionByToken(token: string) {
+  return await Session.getSessionByToken(token);
+}
+
 export async function deleteSession(token: string) {
   await Session.deleteSession(token);
 }
