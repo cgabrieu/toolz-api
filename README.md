@@ -111,9 +111,9 @@ already installed with the docker package
 git clone https://github.com/cgabrieu/toolz-api.git && cd toolz-api
 ```
 
-2. Rename the .env.example to .env and fill it out.
+2. Rename the .env.example to .env, .env.dev.example to .env.dev and .env.test.example to .env.test and fill in all of them
 
-3. Create the volume, the image and run the container
+3. Create the volume, image and run the container
 ```sh
 sudo docker-compose up -d
 ```
@@ -121,12 +121,19 @@ sudo docker-compose up -d
 ```sh
 sudo docker exec -it toolz-api_app_1 sh -c "npm run migration:run"
 ```
-6. All Ready, everything is running flawlessly
+6. To see the logs outputs enter in the app with
+```sh
+sudo docker-compose up
+```
+
+7. As there is no test database on container, be aware that all data will be erased when run the command
+```sh
+sudo docker exec -it toolz-api_app_1 sh -c "npm run test:watch"
+```
 
 <br>
 
 ## How to contribute
-
 1. Fork the project.
 2. Create a new branch with your changes: `git checkout -b feat/myFeatureName`
 3. For each feature implemented, make a commit specifying what was done
