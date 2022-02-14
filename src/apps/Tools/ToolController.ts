@@ -14,3 +14,9 @@ export async function getTools(req: Request, res: Response): Promise<Response> {
 
   return res.status(httpStatus.OK).send(response);
 }
+
+export async function deleteTool(req: Request, res: Response): Promise<Response> {
+  await ToolService.deleteToolById(Number(req.params.id));
+
+  return res.sendStatus(httpStatus.OK);
+}

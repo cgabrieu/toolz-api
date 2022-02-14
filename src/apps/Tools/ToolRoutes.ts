@@ -10,5 +10,6 @@ router.get('/', controller.getTools);
 
 router.use(tokenValidationMiddleware);
 router.post('/', validateCreateToolPayload, controller.createTool);
+router.delete('/:id', controller.deleteTool);
 
 export default router;

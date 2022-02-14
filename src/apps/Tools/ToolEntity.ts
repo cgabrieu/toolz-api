@@ -54,6 +54,10 @@ export default class Tool extends BaseEntity {
     return this.findOne({ where: [{ title: title.toLowerCase() }, { link }] })
   }
 
+  static async getById(id: number) {
+    return this.findOne({ id })
+  }
+
   static async createTool(tool: ToolBody, userId: number) {
     const tags = await Tag.createArrayOfTags(tool.tags);
     const user = await User.getUserById(userId);
@@ -67,5 +71,9 @@ export default class Tool extends BaseEntity {
 
     const responseTools = tools.map((tool) => tool.getTool());
     return responseTools;
+  }
+
+  static async deleteTool(tool: Tool) {
+    await this.delete(tool);
   }
 }

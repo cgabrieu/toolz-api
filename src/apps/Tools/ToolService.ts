@@ -1,6 +1,9 @@
+import { ValidationError } from 'yup';
+
 import ConflictError from '@/errors/ConflictError';
 import ToolBody from './interfaces/ToolBody';
 import Tool from './ToolEntity';
+import NotFoundError from '@/errors/NotFoundError';
 
 export async function createTool(toolBody: ToolBody, userId: number) {
   const tool = await Tool.getByTitleOrLink(toolBody.title, toolBody.link);
@@ -13,6 +16,25 @@ export async function createTool(toolBody: ToolBody, userId: number) {
 }
 
 export async function getTools() {
-  const allTools = await Tool.getTools();
-  return allTools;
+  const tools = await Tool.getTools();
+  if(!tools.length) {
+    return {
+      message: 'Não há ferramentas cadastradas',
+    };
+  }
+
+  return tools;
+}
+
+export async function deleteToolById(toolId: number) {
+  if (!Number.isInteger(toolId) || toolId < 1) {
+    throw new ValidationError('Id do usuário inválido');
+  }
+
+  const tool = await Tool.getById(toolId);
+  if(!tool) {
+    throw new NotFoundError(`Ferramenta não encontrada para o id: ${toolId}`);
+  }
+
+  await Tool.deleteTool(tool);
 }

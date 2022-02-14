@@ -15,7 +15,7 @@ export async function validateCreateToolPayload(
       description: yup.string().min(5, 'Deve possuir uma descrição de pelo menos 5 caracteres').required(),
       tags: yup
         .array()
-        .of(yup.string().required('Deve possuir um array de strings'))
+        .of(yup.string().required('Tags deve possuir um array de strings'))
         .min(1, 'Deve possuir pelo menos uma tag')
         .required('Deve possuir tags'),
     })
