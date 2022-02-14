@@ -7,6 +7,7 @@ import UnauthorizedError from '@/errors/UnauthorizedError';
 import NotFoundError from '@/errors/NotFoundError';
 import loggerMiddleware from './loggerMiddleware';
 import NoContentError from '@/errors/NoContentError';
+import ForbiddenError from '@/errors/ForbiddenError';
 
 export default function errorHandlingMiddleware(
   err: Error,
@@ -40,6 +41,12 @@ export default function errorHandlingMiddleware(
 
   if (err instanceof NoContentError) {
     return res.status(httpStatus.NO_CONTENT).send({
+      message: err.message,
+    });
+  }
+
+  if (err instanceof ForbiddenError) {
+    return res.status(httpStatus.FORBIDDEN).send({
       message: err.message,
     });
   }

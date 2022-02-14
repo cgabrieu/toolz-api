@@ -4,7 +4,7 @@ import ConflictError from '@/errors/ConflictError';
 import ToolBody from './interfaces/ToolBody';
 import Tool from './ToolEntity';
 import NotFoundError from '@/errors/NotFoundError';
-import UnauthorizedError from '@/errors/UnauthorizedError';
+import ForbiddenError from '@/errors/ForbiddenError';
 
 export async function createTool(toolBody: ToolBody, userId: number) {
   const tool = await Tool.getByTitleOrLink(toolBody.title, toolBody.link);
@@ -31,7 +31,7 @@ export async function deleteToolById(toolId: number, userId: number) {
   }
 
   if(tool.user.id !== userId) {
-    throw new UnauthorizedError('Não é possível remover pois não pertence ao usuário');
+    throw new ForbiddenError('Não é possível remover pois não pertence ao usuário');
   }
 
   await Tool.deleteTool(tool);
