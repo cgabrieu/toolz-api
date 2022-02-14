@@ -1,4 +1,4 @@
-## Sing me a Song API 🧰
+## Toolz API 🧰
 
 <div align="center">
   <a href="https://toolz-api.herokuapp.com/tools">
@@ -106,32 +106,24 @@ already installed with the docker package
 
 ### How to run
 
-1. Create the root folder named toolz-api and access it
+1. Clone the repo and access it
 ```sh
-mkdir toolz-api && cd toolz-api
+git clone https://github.com/cgabrieu/toolz-api.git && cd toolz-api
 ```
-2. Clone the repo
-```sh
-git clone https://github.com/cgabrieu/toolz-api.git
-```
-3. Run docker
-```sh
-sudo docker-compose up
-```
-4. Create a database using the command below via postgres
-```sh
-CREATE DATABASE singmeasong;
-```
-5. Automatically create all necessary tables to backend repo with <a href="https://github.com/cgabrieu/toolz-api/blob/main/dump.sql">dump</a>.
 
-8. Connect your backend to the database, for that, rename the .env.example to .env.dev and fill in your data.
+2. Rename the .env.example to .env and fill it out.
 
-### How to run
-
-1. Run using the command (remember to be on the repo):
+3. Create the volume, the image and run the container
 ```sh
-npm run start:dev
+sudo docker-compose up -d
 ```
+4. Run the database migration
+```sh
+sudo docker exec -it toolz-api_app_1 sh -c "npm run migration:run"
+```
+6. All Ready, everything is running flawlessly
+
+<br>
 
 ## How to contribute
 

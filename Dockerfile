@@ -11,5 +11,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD npm start && npm run migration:run
-
+CMD npm run dev
