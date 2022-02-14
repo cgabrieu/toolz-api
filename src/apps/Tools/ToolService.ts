@@ -4,6 +4,7 @@ import ConflictError from '@/errors/ConflictError';
 import ToolBody from './interfaces/ToolBody';
 import Tool from './ToolEntity';
 import NotFoundError from '@/errors/NotFoundError';
+import UnauthorizedError from '@/errors/UnauthorizedError';
 
 export async function createTool(toolBody: ToolBody, userId: number) {
   const tool = await Tool.getByTitleOrLink(toolBody.title, toolBody.link);
@@ -20,14 +21,17 @@ export async function getTools() {
   return tools;
 }
 
-export async function deleteToolById(toolId: number) {
+export async function deleteToolById(toolId: number, userId: number) {
   if (!Number.isInteger(toolId) || toolId < 1) {
     throw new ValidationError('Id da ferramenta inválido');
   }
-
   const tool = await Tool.getById(toolId);
   if(!tool) {
     throw new NotFoundError(`Ferramenta não encontrada para o id: ${toolId}`);
+  }
+
+  if(tool.user.id !== userId) {
+    throw new UnauthorizedError('Não é possível remover pois não pertence ao usuário');
   }
 
   await Tool.deleteTool(tool);
