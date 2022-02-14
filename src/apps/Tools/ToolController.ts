@@ -8,3 +8,9 @@ export async function createTool(req: Request, res: Response): Promise<Response>
 
   return res.status(httpStatus.CREATED).send(response);
 }
+
+export async function getTools(req: Request, res: Response): Promise<Response> {
+  const response = await ToolService.getTools();
+
+  return res.status(httpStatus.OK).send(response);
+}

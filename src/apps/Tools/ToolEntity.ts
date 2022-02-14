@@ -1,5 +1,6 @@
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   Entity,
   JoinTable,
@@ -26,12 +27,17 @@ export default class Tool extends BaseEntity {
   @Column()
   description: string;
 
-  @ManyToOne(() => User, { eager: true })
+  @ManyToOne(() => User)
   user: User;
 
-  @ManyToMany(() => Tag, (tag: Tag) => tag.name)
+  @ManyToMany(() => Tag)
   @JoinTable()
   tags: Tag[];
+
+  @BeforeInsert()
+  nameToLowerCase() {
+    this.title = this.title.toLowerCase();
+  }
 
   getTool() {
     return {
@@ -44,8 +50,8 @@ export default class Tool extends BaseEntity {
     };
   }
 
-  static async findByTitleOrLink(title: string, link: string) {
-    return this.findOne({ where: [{ title }, { link }] })
+  static async getByTitleOrLink(title: string, link: string) {
+    return this.findOne({ where: [{ title: title.toLowerCase() }, { link }] })
   }
 
   static async createTool(tool: ToolBody, userId: number) {
@@ -54,5 +60,12 @@ export default class Tool extends BaseEntity {
 
     const newTool = this.create({ ...tool, tags, user });
     return await this.save(newTool);
+  }
+
+  static async getTools() {
+    const tools = await this.find({ relations: ['tags', 'user'] });
+
+    const responseTools = tools.map((tool) => tool.getTool());
+    return responseTools;
   }
 }

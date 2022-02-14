@@ -25,7 +25,7 @@ export default class Tag extends BaseEntity {
   }
 
   static async findByName(name: string) {
-    return await this.findOne({ name });
+    return await this.findOne({ name: name.toLowerCase() });
   }
 
   static async createTag(name: string) {
