@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Toolz - Documentação (PT-BR)",
+    "title": "Toolz - Documentação",
     "version": "1.0.0"
   },
   "servers": [
@@ -136,7 +136,7 @@
             "description": "Ok - Retorna todas as ferramentas cadastradas",
 						"content": {
 							"application/json": {
-								"schema": { "$ref": "#/components/schemas/ToolResponse" }
+								"schema": { "$ref": "#/components/schemas/ToolResponse" },
 							}
 						}
           },
@@ -144,7 +144,7 @@
             "description": "Internal Server Error"
           }
         }
-      }
+      },
     },
 		"/tools/{toolId}": {
 			"delete": {
@@ -163,16 +163,19 @@
 				],
         "responses": {
           "200": {
-            "description": "Ok - Retorna um objeto vazio quando removido com sucesso"
+            "description": "Ok - Retorna um objeto vazio quando removido com sucesso",
           },
 					"401": {
-            "description": "Unauthorized - Header de autenticação inválido"
+            "description": "Unauthorized - Header de autenticação inválido",
           },
 					"400": {
-            "description": "Bad Request - Id da ferramenta inválido"
+            "description": "Bad Request - Id da ferramenta inválido",
+          },
+					"403": {
+            "description": "Forbideen - Id do usuário da ferramenta não é igual ao da header token",
           },
 					"404": {
-            "description": "Not Found - Id da ferramenta não encontrado"
+            "description": "Not Found - Id da ferramenta não encontrado",
           },
 					"500": {
             "description": "Internal Server Error"
