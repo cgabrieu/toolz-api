@@ -10,12 +10,16 @@ export async function validateCreateToolPayload(
   await yup
     .object()
     .shape({
-      title: yup.string().required(),
-      link: yup.string().url().required(),
-      description: yup.string().min(5).required(),
-      tags: yup.array(yup.string()).min(1).required()
+      title: yup.string().required('Deve possuir um titulo'),
+      link: yup.string().url('Link inválido').required('Deve possuir um link'),
+      description: yup.string().min(5, 'Deve possuir uma descrição de pelo menos 5 caracteres').required(),
+      tags: yup
+        .array()
+        .of(yup.string().required('Deve possuir um array de strings'))
+        .min(1, 'Deve possuir pelo menos uma tag')
+        .required('Deve possuir tags'),
     })
-    .validate(req.body, { abortEarly: false });
+    .validate(req.body, { abortEarly: true });
 
   return next();
 }
