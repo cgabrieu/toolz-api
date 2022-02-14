@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test npm run eslint:fix && npx jest -i",
-    "test:watch": "NODE_ENV=test npm run eslint:fix && npx jest -i --watchAll",
+    "test:watch": "NODE_ENV=test npx jest -i --watchAll",
     "build": "NODE_ENV=production rm -rf ./dist && npx tsc -P ./tsconfig.json --outDir dist && babel dist -d dist",
     "start": "NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/server.js && npm run typeorm:dev migration:run",
     "dev": "NODE_ENV=dev ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
