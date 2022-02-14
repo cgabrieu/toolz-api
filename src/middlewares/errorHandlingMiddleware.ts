@@ -6,6 +6,7 @@ import ConflictError from '@/errors/ConflictError';
 import UnauthorizedError from '@/errors/UnauthorizedError';
 import NotFoundError from '@/errors/NotFoundError';
 import loggerMiddleware from './loggerMiddleware';
+import NoContentError from '@/errors/NoContentError';
 
 export default function errorHandlingMiddleware(
   err: Error,
@@ -33,6 +34,12 @@ export default function errorHandlingMiddleware(
 
   if (err instanceof ValidationError) {
     return res.status(httpStatus.BAD_REQUEST).send({
+      message: err.message,
+    });
+  }
+
+  if (err instanceof NoContentError) {
+    return res.status(httpStatus.NO_CONTENT).send({
       message: err.message,
     });
   }

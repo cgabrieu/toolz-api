@@ -17,18 +17,12 @@ export async function createTool(toolBody: ToolBody, userId: number) {
 
 export async function getTools() {
   const tools = await Tool.getTools();
-  if(!tools.length) {
-    return {
-      message: 'Não há ferramentas cadastradas',
-    };
-  }
-
   return tools;
 }
 
 export async function deleteToolById(toolId: number) {
   if (!Number.isInteger(toolId) || toolId < 1) {
-    throw new ValidationError('Id do usuário inválido');
+    throw new ValidationError('Id da ferramenta inválido');
   }
 
   const tool = await Tool.getById(toolId);

@@ -10,7 +10,7 @@ import connectDatabase from '@/config/database';
 import loggerMiddleware from './middlewares/loggerMiddleware';
 import errorHandlingMiddleware from '@/middlewares/errorHandlingMiddleware';
 
-import swaggerDocs from './swagger.json';
+import swaggerDocs from './documentation.json';
 
 const app = express();
 
