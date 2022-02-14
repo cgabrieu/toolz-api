@@ -33,14 +33,26 @@ export default class Tool extends BaseEntity {
   @JoinTable()
   tags: Tag[];
 
+  getTool() {
+    return {
+      id: this.id,
+      userId: this.user.id,
+      title: this.title,
+      link: this.link,
+      description: this.description,
+      tags: this.tags.map((tag) => tag.name),
+    };
+  }
+
   static async findByTitleOrLink(title: string, link: string) {
     return this.findOne({ where: [{ title }, { link }] })
   }
 
-  static async createTool(tool: ToolBody) {
+  static async createTool(tool: ToolBody, userId: number) {
     const tags = await Tag.createArrayOfTags(tool.tags);
+    const user = await User.getUserById(userId);
 
-    const newTool = this.create({ ...tool, tags });
+    const newTool = this.create({ ...tool, tags, user });
     return await this.save(newTool);
   }
 }

@@ -5,16 +5,21 @@ import UserBody from './interfaces/UserBody';
 @Entity('users')
 export default class User extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'integer' })
-    id?: number;
+  id?: number;
 
   @Column()
-    name?: string;
+  name?: string;
 
   @Column({ unique: true })
-    email: string;
+  email: string;
 
   @Column()
-    password?: string;
+  password?: string;
+
+  static async getUserById(userId: number) {
+    const user = await this.findOne({ id: userId });
+    return user;
+  }
 
   static async getUserByEmail(email: string) {
     const user = await this.findOne({ email });
