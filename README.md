@@ -39,16 +39,8 @@ Tools that were used in the project:
 <br/>
 
 ## Getting Started
-
-To run locally follow the steps
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-
-<br/>
-
-#### Docker
+### - Prerequisites
+### Docker
 * ubuntu
 ```sh
 sudo apt-get update
@@ -76,12 +68,10 @@ sudo dnf install docker-ce docker-ce-cli containerd.io
 ```
 <br>
 
-* windows
-
-<a href="https://docs.docker.com/desktop/windows/install/">Look here</a>
+* windows - <a href="https://docs.docker.com/desktop/windows/install/">Look here</a>
 
 
-#### Docker compose
+### Docker compose
 * ubuntu
 ```sh
 sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -102,9 +92,8 @@ sudo dnf install docker-compose
 already installed with the docker package
 ```
 <br>
-<br>
 
-### How to run
+## How to run
 
 1. Clone the repo and access it
 ```sh
