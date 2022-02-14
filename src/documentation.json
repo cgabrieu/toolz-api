@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Toolz - Documentação (PT-BR)",
+    "title": "Toolz - Documentação",
     "version": "1.0.0"
   },
   "servers": [
@@ -170,6 +170,9 @@
           },
 					"400": {
             "description": "Bad Request - Id da ferramenta inválido"
+          },
+					"403": {
+            "description": "Forbideen - Id do usuário da ferramenta não é igual ao da header token"
           },
 					"404": {
             "description": "Not Found - Id da ferramenta não encontrado"
