@@ -1,9 +1,9 @@
-import { server } from '@config/index';
+import app, { init } from '@/app';
+import { server } from '@/config';
+import loggerMiddleware from './middlewares/loggerMiddleware';
 
-import logger from '@middlewares/loggerMiddleware';
-
-import express from './app';
-
-express.app.listen(server.port, () => {
-  logger.info('Server running', { port: server.port, mode: server.env });
+init().then(() => {
+  app.listen(server.port, () => {
+    loggerMiddleware.info('Server running', { port: server.port, mode: server.env });
+  });
 });

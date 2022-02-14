@@ -1,0 +1,236 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Toolz - Documentação (PT-BR)",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Versão de depuração"
+    },
+    {
+      "url": "https://toolz-api.herokuapp.com/",
+      "description": "Versão de produção"
+    }
+  ],
+  "paths": {
+    "/auth/sign-up": {
+      "post": {
+        "summary": "Cadastro",
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SignUpPayload" },
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "Carlos Gabriel",
+                    "email": "carlosgabrielpc@live.com",
+                    "password": "minhaSenhaDificil"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created - Retorna o objeto usuário com id"
+          },
+          "409": {
+            "description": "Conflict - E-mail já utilizado"
+          },
+          "400": {
+            "description": "Bad Request - Pelo menos um dos campos é inválido"
+          },
+					"500": {
+            "description": "Internal Server Error - Outros erros, possivelmente com o banco de dados"
+          }
+        }
+      }
+    },
+		"/auth/sign-in": {
+      "post": {
+        "summary": "Login",
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SignInPayload" },
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "carlosgabrielpc@live.com",
+                    "password": "minhaSenhaDificil"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK - Retorna o objeto usuário infomações do usuário e token de autenticação"
+          },
+
+          "400": {
+            "description": "Bad Request - Pelo menos um dos campos é inválido"
+          },
+					"404": {
+            "description": "Not Found - Não foi encontrado usuário para as entradas fornecidas"
+          },
+					"500": {
+            "description": "Internal Server Error - Outros erros, possivelmente com o banco de dados"
+          }
+        }
+      }
+    },
+		"/tools": {
+      "post": {
+        "summary": "Registro de ferramenta",
+        "tags": ["Tool"],
+				"security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateToolPayload" },
+              "examples": {
+                "tool": {
+                  "value": {
+                    "title": "fastify",
+										"link": "https://www.fastify.io/",
+                    "description": "Extremely fast and simple, low-overhead web framework for NodeJS. Supports HTTP2.",
+										"tags": ["web", "framework", "node", "http2", "https", "localhost"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created - Retorna o mesmo request body enviado com o id da ferramenta e id do usuário"
+          },
+
+          "400": {
+            "description": "Bad Request - Pelo menos um dos campos é inválido"
+          },
+					"401": {
+            "description": "Unauthorized - Header de autenticação inválido"
+          },
+					"409": {
+            "description": "Conflict - Quando já existe ferramenta com o mesmo título ou link cadastrada"
+          },
+					"500": {
+            "description": "Internal Server Error - Outros erros, possivelmente com o banco de dados"
+          }
+        }
+      },
+			"get": {
+        "summary": "Listagem de todas ferramentas",
+        "tags": ["Tool"],
+        "responses": {
+          "200": {
+            "description": "Ok - Retorna todas as ferramentas cadastradas",
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ToolResponse" }
+							}
+						}
+          },
+					"500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+		"/tools/{toolId}": {
+			"delete": {
+        "summary": "Remoção de ferramenta pelo id",
+        "tags": ["Tool"],
+				"security": [{ "bearerAuth": [] }],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "toolId",
+						"required": true,
+						"schema": {
+
+						}
+					}
+				],
+        "responses": {
+          "200": {
+            "description": "Ok - Retorna um objeto vazio quando removido com sucesso"
+          },
+					"401": {
+            "description": "Unauthorized - Header de autenticação inválido"
+          },
+					"400": {
+            "description": "Bad Request - Id da ferramenta inválido"
+          },
+					"404": {
+            "description": "Not Found - Id da ferramenta não encontrado"
+          },
+					"500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+		}
+  },
+  "components": {
+    "schemas": {
+      "SignUpPayload": {
+        "type": "object",
+				"required": [ "name", "email", "password" ],
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "password": { "type": "string" }
+        }
+      },
+			"SignInPayload": {
+        "type": "object",
+				"required": [ "email", "password" ],
+        "properties": {
+          "email": { "type": "string" },
+          "password": { "type": "string" }
+        }
+      },
+			"CreateToolPayload": {
+        "type": "object",
+				"required": [ "title", "link", "description", "tags" ],
+        "properties": {
+          "title": { "type": "string" },
+          "link": { "type": "string" },
+					"description": { "type": "string" },
+					"tags": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+			"ToolResponse": {
+        "type": "array",
+				"items": {
+					"type": "object",
+        	"properties": {
+						"id": { "type": "number" },
+						"userId": { "type": "number" },
+						"title": { "type": "string" },
+						"link": { "type": "string" },
+						"description": { "type": "string" },
+						"tags": { "type": "array", "items": { "type": "string" } }
+        	}
+				}
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

@@ -1,65 +1,41 @@
-import { Namespace, createNamespace } from 'continuation-local-storage';
+import express from 'express';
 import cors from 'cors';
-import express, {
-  Application,
-  NextFunction,
-  Request,
-  RequestHandler,
-  Response,
-} from 'express';
-import { ErrorHandler } from 'express-handler-errors';
 import morgan from 'morgan-body';
+import swaggerUi from 'swagger-ui-express';
+import 'express-async-errors';
+import 'reflect-metadata';
 
-import logger from '@middlewares/loggerMiddleware';
-import router from '@routers/index';
+import router from '@/routes';
+import connectDatabase from '@/config/database';
+import loggerMiddleware from './middlewares/loggerMiddleware';
+import errorHandlingMiddleware from '@/middlewares/errorHandlingMiddleware';
 
-class App {
-  public readonly app: Application;
-  private readonly session: Namespace;
+import swaggerDocs from './documentation.json';
 
-  constructor() {
-    this.app = express();
-    this.session = createNamespace('request');
+const app = express();
 
-    this.middlewares();
-    this.routes();
-    this.errorHandle();
-  }
+app.use(cors());
+app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-  private routes(): void {
-    this.app.use('/', router);
-  }
+morgan(app, {
+  noColors: true,
+  prettify: false,
+  logReqUserAgent: false,
+  stream: {
+    write: (msg: string) => loggerMiddleware.info(msg) && true,
+  },
+});
 
-  private middlewares(): void {
-    this.app.use(express.json());
-    this.app.use(cors());
+app.get('/health', (_req, res) => {
+  res.send('OK!');
+});
 
-    const attachContext: RequestHandler = (
-      _: Request,
-      __: Response,
-      next: NextFunction
-    ) => {
-      this.session.run(() => next());
-    };
+app.use(router);
+app.use(errorHandlingMiddleware);
 
-    this.app.use(attachContext);
-    morgan(this.app, {
-      noColors: true,
-      prettify: false,
-      logReqUserAgent: false,
-      stream: {
-        write: (msg: string) => logger.info(msg) as any,
-      },
-    });
-  }
-
-  private errorHandle(): void {
-    this.app.use(
-      (err: Error, _: Request, res: Response, next: NextFunction) => {
-        new ErrorHandler().handle(err, res, next, logger as any);
-      }
-    );
-  }
+export async function init() {
+  await connectDatabase();
 }
 
-export default new App();
+export default app;
