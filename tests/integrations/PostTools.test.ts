@@ -32,7 +32,7 @@ describe('POST TOOLS - Create Tool', () => {
   const createToolBody: ToolBody = {
     title: faker.random.word().toLowerCase(),
     link: faker.internet.url(),
-    description: faker.random.words(),
+    description: faker.random.words(10),
     tags: ['one', 'two'],
   };
 
