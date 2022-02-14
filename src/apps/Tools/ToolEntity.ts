@@ -55,7 +55,7 @@ export default class Tool extends BaseEntity {
   }
 
   static async getById(id: number) {
-    return this.findOne({ id })
+    return this.findOne({ where: { id }, relations: ['user'] })
   }
 
   static async createTool(tool: ToolBody, userId: number) {
