@@ -5,7 +5,7 @@
     <img src="https://book.giflingua.com/images/origin/tols.gif" width="280px">
   </a>
     <br />
-    <a href="https://toolz-api.herokuapp.com/tools">View the deploy</a>
+    <a href="https://toolz-api.herokuapp.com/tools">Deploy</a>
     <br />
 </div>
 
@@ -13,7 +13,7 @@
 
 ## About
 
-Need suggestions for which tools to use in your projects? Use Toolz! In this RestApi you can see the tools listed that can be useful in your project. Also, if you are authenticated, you can post and delete tools. Feel free to use and contribute!
+Need suggestions for which tools to use in your projects? Use Toolz! In this RestApi you can see the tools listed that can be useful in your project. Also, if you are authenticated, you can post and delete tools.
 
 <br/>
 
