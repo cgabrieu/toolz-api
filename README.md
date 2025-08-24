@@ -157,16 +157,3 @@ sudo docker-compose up
 ```sh
 sudo docker exec -it toolz-api_app_1 sh -c "npm run test:watch"
 ```
-
-<br>
-
-## How to contribute
-
-1. Fork the project.
-2. Create a new branch with your changes: `git checkout -b feat/myFeatureName`
-3. For each feature implemented, make a commit specifying what was done
-4. Submit your changes: `git push -u origin feat/myFeatureName`
-
-## Developer
-
-- [Carlos Gabriel](https://github.com/cgabrieu)
